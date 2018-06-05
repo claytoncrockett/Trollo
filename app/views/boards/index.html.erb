@@ -1,0 +1,11 @@
+<h2> Current Boards </h2>
+<h4> 
+  <%=link_to "Add New Board", new_board_path %>
+</h4> 
+<ul>
+  <% @boards.each do |board| %>
+    <li><%=link_to board.name, board_path(board) %>
+    - <%= link_to 'Delete Board', board_path(board), method: :delete %></li>
+    
+  <%end%>
+</ul>
