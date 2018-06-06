@@ -12,13 +12,16 @@ class ListsController < ApplicationController
     lists.each do |list|
       list.update(priority: "#{list.priority}")
     end
-    redirect_to [@board, @list]
-
-
-    end
+    redirect_to @board
+  end
 
   def down
-
+    lists = @list.move_down(@list)
+    # binding.pry
+    lists.each do |list|
+      list.update(priority: "#{list.priority}")
+    end
+    redirect_to @board
   end
 
   def show
@@ -67,7 +70,6 @@ class ListsController < ApplicationController
     end
 
     def list_params
-      binding.pry
       params.require(:list).permit(:name, :priority)
     end
 end

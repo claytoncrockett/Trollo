@@ -21,4 +21,14 @@ class List < ApplicationRecord
     @lists
     #return [@index, @indexUp, @lists[@index].priority, @lists[@indexUp].priority]
   end
+
+  def move_down(list)
+    @lists = List.order('priority desc')
+    @lists.each_with_index{ |x,i| @index = i if list==x}
+    @indexDown = @index - 1
+    @oldPriority = @lists[@index].priority
+    @lists[@index].priority = @lists[@indexDown].priority
+    @lists[@indexDown].priority = @oldPriority
+    @lists
+  end
 end

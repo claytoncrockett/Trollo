@@ -1,10 +1,22 @@
 <h1><%= @board.name %></h1>
 <h4><%=link_to 'Add List', new_board_list_path(@board)%></h4>
-<% @board.lists.each do |list| %>
+<% @board.lists.order('priority').each do |list| %>
   <p>
-    <%=link_to list.name, board_list_path(@board, list) %> - 
-    <%=link_to "Delete List", board_list_path(@board, list), method: :delete %> - 
-    <%=link_to "Move Up", board_list_up_path(@board, list), method: :put %>
-  
+    <table>
+      <th>
+        <%=link_to list.name, board_list_path(@board, list) %>
+      </th>
+      <tr> 
+        <%=link_to "Delete List", board_list_path(@board, list), method: :delete %> - 
+        <% if list == List.order('priority').first %>
+          <%= link_to "Move Down", board_list_down_path(@board, list), method: :put %>
+        <%elsif list == List.order('priority').last %>
+          <%=link_to "Move Up", board_list_up_path(@board, list), method: :put %>
+        <%else%>
+          <%=link_to "Move Up", board_list_up_path(@board, list), method: :put %> - 
+          <%= link_to "Move Down", board_list_down_path(@board, list), method: :put %>
+        <%end%>
+        </tr>
+    <table>
   </p>
 <%end%>
